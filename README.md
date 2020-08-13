@@ -13,8 +13,9 @@ Las tecnologías utilizadas por el proyecto son:
 
 ```
 Sistema Operativo: Centos 7. 
-NodeJS v8
-npm 3+
+NodeJS 7.10.0
+npm 5.0.0
+angular/cli@1.0.4
 Typescript
 ```
 
@@ -26,15 +27,28 @@ Clonar el proyecto y dirigirse a la carpeta que posee el archivo package.json (R
 npm install
 ```
 
+Luego ejecutar el siguiente comando:
+
+```shell
+npm install ng
+```
+
 ### Levantar en modo desarrollo
 
 Una vez que se hayan terminado de instalar las dependencias, proceder a levantar el proyecto con el siguiente comando:
 
 ```shell
+ng serve
+```
+
+O bien:
+
+```shell
 npm start
 ```
 
-El comando `npm start` compila la aplicación y levanta el proyecto en el puerto 4200.
+
+El comando `ng serve` y `npm start` compila la aplicación y levanta el proyecto en el puerto 4200.
 
 ```shell
 http://localhost:4200
@@ -44,8 +58,8 @@ Ciérrelo manualmente presionando las teclas `Ctrl-C`.
 
 ### Modo producción
 
-El comando `npm run build` compila la aplicación y genera una carpeta **dist** en la raíz del proyecto. Dicha carpeta es la que debe ser deployada en algún servidor apache o nginx.
+El comando `ng build` compila la aplicación y genera una carpeta **dist** en la raíz del proyecto. Dicha carpeta es la que debe ser deployada en algún servidor apache o nginx.
 
 ```shell
-npm run build
+ng build --prod --build-optimizer
 ```
