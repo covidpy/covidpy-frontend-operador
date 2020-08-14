@@ -1,0 +1,158 @@
+<div id="page-header" class="bg-gradient bg-shadow" style="padding: 0px 0;">
+    <div class="container clearfix">
+        <nav class="breadcrumb">
+
+        </nav>
+    </div>
+</div>
+<div id="content" class="pb-0">
+<div id="content" class="pb-0 pt-2">
+    <div class="container pb-6">
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <h3 class="title-divider text-primary">
+                    <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+                    <span>Datos Básicos</span>
+                </h3>
+
+                <p style="text-align:justify">
+                    {{this.formDatosBasicos?.nombre}}&nbsp;{{this.formDatosBasicos?.apellido}}, como medida de prevención usted debe realizar aislamiento domiciliario por 14 días.
+                </p><p style="text-align:justify">Tenemos registrados los siguientes datos:</p>
+                        <ul>
+                            <li>
+                                Nombre y Apellido: {{this.formDatosBasicos?.nombre}}&nbsp;{{this.formDatosBasicos?.apellido}}
+                            </li>
+                            <li>
+                                Cédula de Identidad: {{this.formDatosBasicos?.numeroDocumento}}
+                            </li>
+                            <li>
+                                Dirección de Aislamiento: {{this.formDatosBasicos?.direccionDomicilio}}
+                            </li>
+                        </ul>
+                    <p style="text-align:justify">
+                        En esta plataforma deberá completar la información solicitada para que podamos hacerle seguimiento y cuidar de su salud. Por favor, escriba una clave de seguridad que utilizará para realizar los registros necesarios:</p>
+
+                    <form #miForm="ngForm" class="mt-4">
+
+                        <div class="form-group">
+                            <label for="contrasenha"><strong>Clave de seguridad </strong></label>
+                            <input type="password" [(ngModel)]="contrasenha" class="form-control" id="contrasenha" style="max-width: 300px;" name="contrasenha" minlength="8" required pPassword>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasenhaConfirm"><strong>Confirmar Clave de seguridad</strong></label>
+                            <input type="password" [(ngModel)]="contrasenhaConfirm" name="contrasenhaConfirm" class="form-control" style="max-width: 300px;" id="contrasenhaConfirm" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="checkbox" style="width:20px;height:20px;" id="terminos" name="terminos" [(ngModel)]="declaracionAgreement" />
+                            <b><span class="text-danger">*</span>Acepto los términos y condiciones</b>
+                            <p><a data-toggle="modal" href="#" data-target="#modalTerminosIE">Ver términos y condiciones</a> </p>
+                        </div>
+
+                        <div class="alert alert-info" *ngIf="!declaracionAgreement">
+                            <i class="fa fa-info-circle"></i> Debe aceptar los términos y condiciones para poder guardar.
+                        </div>
+                    </form>
+
+                    <div class="clearfix"><br/></div>
+                    <div class="alert alert-danger" *ngIf="contrasenha?.length<8">
+                        <i class="fa fa-info-circle"></i> La contraseña debe tener un mínimo de 8 caracteres.
+                    </div>
+
+                    <button (click)="validarTelefono(contrasenha)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading || contrasenha !== contrasenhaConfirm || !declaracionAgreement">
+                        Guardar
+                        <span class="fa fa-check"></span>
+                    </button>
+
+                    <!--<div class="form-group">
+                        <label for="tipoDocumento"><strong>Tipo de Documento</strong></label>
+                        <br>
+                        <p-dropdown id="tipoDocumento" [options]="tipoDocumentoOptions" label="label" placeholder="Seleccionar" [(ngModel)]="formDatosBasicos.tipoDocumento" name="tipoDocumento" id="tipoDocumento" required disabled></p-dropdown>
+                    </div>-->
+                <!--<form #miForm="ngForm" class="mt-4">
+
+                    <div class="form-group">
+                        <label for="tipoDocumento"><strong>Tipo de Documento </strong></label>
+                        <input type="text" [(ngModel)]="tipoDocumento" class="form-control" style="max-width: 200px;" id="tipoDocumento" name="tipoDocumento" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroDocumento"><strong>Cédula </strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroDocumento" class="form-control" style="max-width: 200px;" id="numeroDocumento" name="numeroDocumento" placeholder="Ej. 123456" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre"><strong>Nombre</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.nombre" name="nombre" class="form-control" style="max-width: 300px;" id="nombre" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido"><strong>Apellido</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.apellido" name="apellido" class="form-control" style="max-width: 300px;" id="apellido" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroCelular"><strong>Nro teléfono</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroCelular" class="form-control" id="numeroCelular" style="max-width: 300px;" name="numeroCelular" placeholder="Ej. +595961123456" minlength="6" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccionDomicilio"><strong>Dirección</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.direccionDomicilio" name="direccionDomicilio" class="form-control" style="max-width: 300px;" id="direccionDomicilio" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correoElectronico"><strong>Correo Electrónico</strong></label>
+                        <input type="email" [(ngModel)]="formDatosBasicos.correoElectronico" name="correoElectronico" class="form-control" style="max-width: 300px;" id="correoElectronico" email required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codigoVerif"><strong>Código de verificación</strong></label>
+                        <input type="text" [(ngModel)]="codigoVerif" name="codigoVerif" class="form-control" style="max-width: 300px;" id="codigoVerif" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasenha"><strong>Contraseña </strong></label>
+                        <input type="password" [(ngModel)]="contrasenha" class="form-control" id="contrasenha" style="max-width: 300px;" name="contrasenha" minlength="8" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasenhaConfirm"><strong>Confirmar contraseña</strong></label>
+                        <input type="password" [(ngModel)]="contrasenhaConfirm" name="contrasenhaConfirm" class="form-control" style="max-width: 300px;" id="contrasenhaConfirm" required>
+                    </div>
+
+                    <div class="text-center" *ngIf="loading">
+                        <img src="assets/img/misc/icon_loading.gif" alt="Procesando.." /> A partir de ahora vamos a validar que sos vos...
+                    </div>
+
+                    <div class="clearfix"><br/></div>
+
+                    <div class="clearfix"><br/></div>
+                    <button (click)="validarTelefono(formDatosBasicos.contrasenha)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading || contrasenha !== contrasenhaConfirm">
+                            Guardar
+                            <span class="fa fa-check"></span>
+                        </button>
+                </form>-->
+
+            </div>
+
+            <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">{{mensaje}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i>  Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>

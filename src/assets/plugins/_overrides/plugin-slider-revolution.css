@@ -1,0 +1,61 @@
+.tp-banner {
+  visibility: hidden;
+}
+
+.tp-banner {
+  width: 100%;
+  position: relative;
+}
+
+.slider-interfaz-theme .tp-bannertimer {
+  background: #55A79A;
+  height: 2px;
+}
+
+.slider-interfaz-theme .tp-bannertimer.tp-bottom {
+  bottom: -1px;
+}
+
+.slider-interfaz-theme .tparrows {
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  height: 60px;
+  width: 60px;
+}
+
+.slider-interfaz-theme .tparrows:before {
+  font-size: 22px;
+  line-height: 60px;
+}
+
+.slider-interfaz-theme .tp-leftarrow {
+  left: -3% !important;
+}
+
+.slider-interfaz-theme .tp-rightarrow {
+  left: 103% !important;
+}
+
+.slider-interfaz-theme .revslider-initialised {
+  overflow: hidden;
+}
+
+.slider-interfaz-theme .revslider-initialised:hover .tparrows {
+  opacity: 1;
+}
+
+.slider-interfaz-theme .revslider-initialised:hover .tp-leftarrow {
+  left: 0 !important;
+}
+
+.slider-interfaz-theme .revslider-initialised:hover .tp-rightarrow {
+  left: 100% !important;
+}
+
+.slider-revolution-full-width-behind .slide-content .tp-caption {
+  margin: 0 !important;
+}

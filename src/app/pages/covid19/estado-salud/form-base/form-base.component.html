@@ -1,0 +1,63 @@
+<div class="form-group"
+     [formGroup]="form"
+     [ngSwitch]="field.fieldType"
+     [ngClass]="{
+                  'has-error': this.errores &&
+                               this.errores[field.fieldName]
+               }"
+     *ngFor="let field of fields">
+  <ng-template [ngIf]="showField(field, form.value)">
+    <label [for]="field.fieldName"><strong>{{field.label}}<span *ngIf="field.isRequired">*</span></strong></label>
+    <ng-template ngSwitchCase="String">
+      <input type="text" [name]="field.fieldName" class="form-control" style="max-width: 300px;"
+             [formControlName]="field.fieldName"
+             [id]="field.fieldName">
+    </ng-template>
+    <ng-template ngSwitchCase="PrettyRadio">
+      <div class="p-grid p-dir-col">
+        <div class="p-col"
+             *ngFor="let option of field.optionsSource"
+        >
+          <p-radioButton [name]="field.fieldName"
+                         [value]="option[field.optionsIdProp]"
+                         [label]="option[field.optionsTextProp]"
+                         [formControlName]="field.fieldName"
+                         [inputId]="option[field.optionsIdProp]"></p-radioButton>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template ngSwitchCase="DateTime">
+      <p-calendar [id]="field.fieldName"
+                  [formControlName]="field.fieldName"
+                  [name]="field.fieldName"
+                  dateFormat="yy-mm-dd"
+                  showTime="true"
+                  [locale]="es"
+                  dataType="string"></p-calendar>
+    </ng-template>
+    <ng-template ngSwitchCase="Temp">
+      <input type="number" [name]="field.fieldName" class="form-control" style="max-width: 300px;"
+             min="35"
+             max="42"
+             step="0.1"
+             [formControlName]="field.fieldName"
+             [id]="field.fieldName">
+    </ng-template>
+    <ng-template ngSwitchCase="Smiley">
+      <div class="p-grid p-dir-col">
+        <div class="p-col"
+             *ngFor="let option of smileyOptions"
+        >
+          <p-radioButton [name]="field.fieldName"
+                         [value]="option[field.optionsIdProp]"
+                         [label]="option[field.optionsTextProp]"
+                         [formControlName]="field.fieldName"
+                         [inputId]="option[field.optionsIdProp]"></p-radioButton>
+        </div>
+      </div>
+    </ng-template>
+    <div class="error-message" *ngIf="this.errores && this.errores[field.fieldName]">
+      <span class="error-details" *ngFor="let error of this.errores[field.fieldName]">{{error}}</span>
+    </div>
+  </ng-template>
+</div>

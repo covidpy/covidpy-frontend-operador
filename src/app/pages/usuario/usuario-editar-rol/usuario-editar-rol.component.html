@@ -1,0 +1,30 @@
+<p-dialog  header="Roles de {{data.username}}" [(visible)]="visible" [draggable]="true" [responsive]="true"
+  [maximizable]="true" (onHide)="close()" (onShow)="onShow()" [autoZIndex]="true"
+  [style]="{'width': '500px'}">
+
+  <form style="height: 200px;">
+    <div class="ui-g form-group" [formGroup]="formGroup">
+
+      <!-- Roles -->
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="rol">Roles</label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <p-multiSelect [options]="roles" id="rol" defaultLabel="Seleccione los roles" formControlName="rols">
+          </p-multiSelect>
+        </div>
+        <p style="color:#001C54"><b>Importante:</b> Los cambios se verán reflejados en el próximo inicio de sesión</p>
+      </div>
+
+    </div>
+
+  </form>
+
+
+  <p-footer>
+    <button type="button" pButton (click)="updateRols()" [disabled]="!formGroup.valid" label="Guardar"></button>
+    <button type="button" pButton (click)="close()" label="Cancelar" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>

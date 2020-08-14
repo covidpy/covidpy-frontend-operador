@@ -1,0 +1,134 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+<div class="ui-fluid">
+  <div class="ui-g">
+    <p-blockUI [target]="table" [blocked]="block">
+      <p-progressSpinner class="spinner-position"></p-progressSpinner>
+    </p-blockUI>
+
+    <p-overlayPanel #op [dismissable]="false">
+      <form>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown [options]="tipoPacienteList" [(ngModel)]="advancedSearch.resultadoUltimoDiagnostico" appendTo="body"
+                        [showClear]="true" [style]="{'width':'100%'}" name="tipoPaciente" placeholder="Tipo de Paciente"
+                        optionLabel="descripcion"></p-dropdown>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown [options]="motivoIngresoList" [(ngModel)]="advancedSearch.motivoIngreso" placeholder="Motivo de Ingreso"
+                        [showClear]="true" [style]="{'width':'100%'}" name="motivoIngreso" appendTo="body"
+                        optionLabel="descripcion"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6">
+            <p-spinner type="number" size="30" [(ngModel)]="advancedSearch.horaRetrasoMinimo" placeholder="Horas de retraso mínimo"
+                       [min]="0" name="horaRetrasoMinimo"></p-spinner>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-spinner type="number" size="30" [(ngModel)]="advancedSearch.horaRetrasoMaximo" placeholder="Horas de retraso máximo"
+                       [min]="0" name="horaRetrasoMaximo"></p-spinner>
+          </div>
+        </div>
+        <div class="div-action">
+          <button type="button" pButton style="width: 120px;"
+                  class="ui-button-secondary"
+                  label="Cancelar" (click)="cancelSearch()"></button>
+          <button type="button" pButton style="width: 120px;"
+                  class="ui-button-secondary"
+                  label="Limpiar" (click)="resetAdvancedSearch()"></button>
+          <button type="button" pButton style="width: 120px;"
+                  class="btn btn-success btn-success-next"
+                  label="Buscar" (click)="onSearch()"></button>
+        </div>
+      </form>
+    </p-overlayPanel>
+
+    <div class="ui-g-12">
+      <div class="card ui-shadow-2">
+        <h3 class="title-divider text-primary">
+          <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+          <span>{{title}}</span>
+        </h3>
+        <p-blockUI [target]="table" [blocked]="block">
+          <p-progressSpinner class="spinner-position"></p-progressSpinner>
+        </p-blockUI>
+        <p-table #table [columns]="cols" [value]="reportes" selectionMode="single" dataKey="id" [paginator]="true"
+          [rows]="pageSize" [totalRecords]="totalRecords" [responsive]="true" [lazy]="true" (onLazyLoad)="load($event)"
+          paginatorPosition="bottom" [resizableColumns]="true" columnResizeMode="expand" [loading]="loading" loadingIcon="fa fa-spinner">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+              <div style="float:left;display: flex">
+                <button type="button" pButton icon="fa fa-file" style="width: 120px;"
+                        class="btn btn-success btn-success-next"
+                        label="Exportar" (click)="onDownloadCsv()">
+                </button>
+                <p-dropdown [options]="tipoReporte" [(ngModel)]="tipoReporteSelect" appendTo="body" (onChange)="onChangeTipoReporte($event)"
+                            [style]="{'width':'250px','margin-left':'5px'}" name="tipoReporte" placeholder="Tipo de Reporte"
+                            optionLabel="descripcion"></p-dropdown>
+              </div>
+              <div class="ui-inputgroup" style="display: flex; justify-content: flex-end">
+                  <span class="ui-inputgroup-addon">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                  </span>
+                  <input type="text" pInputText size="30%" placeholder="Filtrar"
+                         (input)="table.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                  <button pButton type="button" icon="{{op.visible ? 'fa fa-angle-up' : 'fa fa-angle-down'}}"
+                          class="btn btn-success btn-success-next" #searchAdvanced
+                          (click)="op.visible ? op.hide() :op.show($event, searchAdvanced)"></button>
+                </div>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns"
+                  [pSortableColumn]="col.sort ? col.field : ''" pResizableColumn [style.width]="col.width">
+                {{col.header}}
+                <p-sortIcon *ngIf="col.sort" [field]="col.field"></p-sortIcon>
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-reporte let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns" [class]="col.isAction ? 'text-center' : ''">
+                <span *ngIf="!col.isDate && !col.isAction; else dateFormatField">
+                   {{reporte[col.field]}}
+                </span>
+                <ng-template #dateFormatField>
+                  <ng-container *ngIf="!col.isAction else action">
+                    {{reporte[col.field]  | date:'dd/MM/yyyy HH:mm'}}
+                  </ng-container>
+                </ng-template>
+                <ng-template #action>
+                  <button pButton type="button" icon="fa fa-eye" tooltipPosition="bottom" pTooltip="Verificar registro persona"
+                          class="btn-success-next" (click)="navigateVerificarCedula(reporte)" >
+                  </button>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td [attr.colspan]="columns.length">
+                <span *ngIf="!loading && !error">
+                  Sin registros
+                </span>
+                <span *ngIf="loading">
+                  Cargando
+                </span>
+                <span *ngIf="!loading && error">
+                  Ocurrió un error al cargar los datos
+                </span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <button type="button" pButton icon="fa fa-arrow-left"
+                style="width: 100px; margin-top: 16px"
+                class="btn btn-success btn-success-next"
+                label="Volver" routerLink="/covid19/home-operador"></button>
+      </div>
+    </div>
+  </div>
+</div>

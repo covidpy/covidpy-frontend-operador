@@ -1,0 +1,62 @@
+<div id="page-header" class="bg-gradient bg-shadow" style="padding: 0px 0;">
+  <div class="container clearfix">
+      <nav class="breadcrumb">
+          
+      </nav>
+  </div>
+</div>
+<div id="content" class="pb-0">
+<div id="login-wrapper">
+  <!--img src="assets/layout/images/login/icon-login.svg" /-->
+  <style>
+  @media (min-width: 1025px){
+    .layout-wrapper.menu-layout-static.layout-menu-static-inactive .layout-menu-container {
+        margin: 0px !important;
+    }
+  }
+  </style>
+
+  <p-messages [value]="msgs"></p-messages>
+  <div id="login-container" style="height: 330px !important;max-width:400px;margin: auto;text-align:center;">
+    <!-- <span class="title">Bienvenido </span> -->
+    <h3 class="welcome-text">Módulo del Operador Sanitario</h3>
+    <!--span class="guest-sign-in">Inicie sesión para administrar sus recursos</span-->
+
+    <form #loginForm="ngForm">
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12">
+          <input type="text" pInputText autocomplete="off"
+            placeholder="Identificador" id="usuario" name="usuario" [(ngModel)]="up.username" required #usuario="ngModel" />
+          <div [hidden]="usuario.valid || usuario.pristine">
+            <p-message severity="error" text="Nombre de usuario requerido"></p-message>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <input type="password" autocomplete="off"
+            placeholder="Clave" id="clave" name="clave" [(ngModel)]="up.password" required #clave="ngModel" />
+          <div [hidden]="clave.valid || clave.pristine">
+            <p-message severity="error" text="Clave requerida"></p-message>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+            [disabled]="!loginForm.form.valid" (click)="doLogin()" style="width:200px;">
+            <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
+            <span class="ui-button-text ui-c">Iniciar sesión</span>
+          </button>
+          <br><br>
+          <!--a [routerLink]="['/generarClave']" >Crear/Cambiar contraseña</a-->
+        </div>
+
+        <div class="ui-g-12 link-pane">
+          
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+</div>

@@ -1,0 +1,42 @@
+<div id="content" class="pb-0 pt-2">
+  <div class="container pb-6">
+    <div class="row">
+      <div class="col-md-8 mb-4">
+        <h3 class="title-divider text-primary">
+          <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+          <span>Actualizar Estado de Salud - Nro. de Documento: {{cedula$|async}}</span>
+        </h3>
+        <form class="mt-4" [formGroup]="form" *ngIf="(form$|async) as form; else cargando">
+          <app-form-base
+              [form]="form"
+              [errores]="errores"
+              [fields]="fields$|async"></app-form-base>
+          <div class="p-grid">
+            <div class="p-col">
+
+              <button type="submit"
+                      class="btn btn-success btn-success-next"
+                      [disabled]="loading"
+                      (click)="onSaveClick()"
+                      >
+                Guardar
+                <span class="fa fa-check"></span>
+              </button>
+              <button class="btn btn-success btn-success-next" (click)="goBack()"
+                      [disabled]="loading"
+              >
+                Cancelar
+                <span class="fa fa-times"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <ng-template #cargando>
+          <div class="text-left">
+            <img src="assets/img/misc/icon_loading.gif" alt="" /> Cargando...
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

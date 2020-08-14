@@ -1,0 +1,286 @@
+<div id="page-header" class="bg-gradient bg-shadow" style="padding: 0px 0;">
+    <div class="container clearfix">
+        <nav class="breadcrumb">
+
+        </nav>
+    </div>
+</div>
+<div id="content" class="pb-0">
+    <div id="content" class="pb-0 pt-2">
+        <div class="container pb-6">
+            <div class="row">
+            <!--<div class="col-md-8 mb-4">-->
+                <h3 class="title-divider text-primary">
+                    <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+                    <span>Contactos del paciente</span>
+                </h3>
+
+                <!--<form #miForm="ngForm" class="mt-4">
+
+                    <div class="form-group">
+                        <label for="cedula"><strong>Cédula</strong></label>
+                        <input [(ngModel)]="cedula" class="form-control" id="cedula" style="max-width: 300px;" name="cedula" required>
+                    </div>
+                    <div>
+                        <button (click)="obtenerPersona(cedula)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading">
+                            Verificar
+                            <span class="fa fa-check"></span>
+                        </button>&nbsp;
+                        <button class="btn btn-secondary btn-success-next" (click)="goBack()">
+                            Volver al Menú
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </div>
+                </form>-->
+                <div class="col-md-8 mb-4">
+                    <button class="btn btn-secondary btn-success-next" (click)="mostrarAgregarContacto()">
+                        Agregar
+                        <span class="fa fa-plus"></span>
+                    </button>&nbsp;
+                    <button class="btn btn-secondary btn-success-next" (click)="volver()">
+                        Volver
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <div>
+
+    <p-table #dt [columns]="cols" [value]="contactosList" selectionMode="single" dataKey="id" [paginator]="true"
+    [rows]="pageSize" [totalRecords]="totalRecords" [responsive]="true" [lazy]="true" (onLazyLoad)="load($event)"
+    paginatorPosition="bottom" [resizableColumns]="true" columnResizeMode="expand">
+
+          <ng-template pTemplate="caption">
+               <div style="text-align: left;width:auto;">
+                    <input type="text" pInputText style="width:500px;" placeholder="Filtrar Contactos por Nro de documento, nombres o apellidos" (input)="dt.filterGlobal($event.target.value, 'contains')">
+              </div>
+              <!--<div class="ui-helper-clearfix" style="text-align: right">
+                  <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;" [disabled]="totalRecords===0"></button>
+                  <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="XLS" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success" [disabled]="totalRecords===0"></button>
+                  <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning" [disabled]="totalRecords===0"></button>
+              </div>-->
+           </ng-template>
+           <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn [style.width]="col.width">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>
+                    {{rowData.nroDocumento}}
+                  </td>
+                  <td>
+                   {{rowData.nombres}}
+                  </td>
+                  <td>
+                    {{rowData.apellidos}}
+                  </td>
+                  <td>
+                    {{rowData.telefono}}
+                  </td>
+                  <td>
+                    {{rowData.domicilio}}
+                  </td>
+                  <td>
+                    {{rowData.tipo}}
+                  </td>
+                  <td>
+                    {{rowData.fechaUltimoContacto | date:'dd-MM-yyyy'}}
+                  </td>
+                  <td>
+                    <button type="button" pButton icon="pi pi-trash" iconPos="left" (click)="confirmarBorrado(rowData.id)" class="ui-button-danger"></button>
+                    <button type="button" pButton icon="pi pi-pencil" iconPos="left" (click)="mostrarEditarContacto(rowData)" class="ui-button-success"></button>
+                </td>
+                </tr>
+            </ng-template>
+    </p-table>
+
+                </div>
+
+                <!--<button class="btn btn-secondary" routerLink="/covid19/home-operador">
+                    Volver al Menú
+                </button>-->
+
+                <!--<form #miForm="ngForm" class="mt-4">
+
+                    <div class="form-group">
+                        <label for="tipoDocumento"><strong>Tipo de Documento </strong></label>
+                        <input type="text" [(ngModel)]="tipoDocumento" class="form-control" style="max-width: 200px;" id="tipoDocumento" name="tipoDocumento" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroDocumento"><strong>Cédula </strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroDocumento" class="form-control" style="max-width: 200px;" id="numeroDocumento" name="numeroDocumento" placeholder="Ej. 123456" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre"><strong>Nombre</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.nombre" name="nombre" class="form-control" style="max-width: 300px;" id="nombre" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido"><strong>Apellido</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.apellido" name="apellido" class="form-control" style="max-width: 300px;" id="apellido" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroCelular"><strong>Nro teléfono</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroCelular" class="form-control" id="numeroCelular" style="max-width: 300px;" name="numeroCelular" placeholder="Ej. +595961123456" minlength="6" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correoElectronico"><strong>Correo Electrónico</strong></label>
+                        <input type="email" [(ngModel)]="formDatosBasicos.correoElectronico" name="correoElectronico" class="form-control" style="max-width: 300px;" id="correoElectronico" email required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codigoVerif"><strong>Código de verificación</strong></label>
+                        <input type="text" [(ngModel)]="codigoVerif" name="codigoVerif" class="form-control" style="max-width: 300px;" id="codigoVerif" required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasenha"><strong>Contraseña </strong></label>
+                        <input type="password" [(ngModel)]="contrasenha" class="form-control" id="contrasenha" style="max-width: 300px;" name="contrasenha" minlength="8" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasenhaConfirm"><strong>Confirmar contraseña</strong></label>
+                        <input type="password" [(ngModel)]="contrasenhaConfirm" name="contrasenhaConfirm" class="form-control" style="max-width: 300px;" id="contrasenhaConfirm" required>
+                    </div>
+
+                    <div class="text-center" *ngIf="loading">
+                        <img src="assets/img/misc/icon_loading.gif" alt="Procesando.." /> A partir de ahora vamos a validar que sos vos...
+                    </div>
+
+                    <div class="clearfix"><br/></div>
+
+                    <div class="clearfix"><br/></div>
+                    <button (click)="validarTelefono(formDatosBasicos.contrasenha)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading || contrasenha !== contrasenhaConfirm">
+                            Guardar
+                            <span class="fa fa-check"></span>
+                        </button>
+                </form>-->
+
+            <!--</div>-->
+
+            <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">{{mensaje}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i>  Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-dialog [(visible)]="showEditarContacto" [formGroup]="agregarContactoFormGroup" modal="true" header="Editar Contacto">
+                <div class="form-group">
+                    <label for="nroDocumento"><strong>Número de Documento</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="nroDocumento" name="nroDocumento" class="form-control" style="max-width: 400px;" id="nroDocumento" required>
+                </div>
+                <div class="form-group">
+                        <label for="nombres"><strong>Nombres</strong><span class="text-danger">*</span></label>
+                        <input type="text" formControlName="nombres" name="nombres" class="form-control" style="max-width: 400px;" id="nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos"><strong>Apellidos</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="apellidos" name="apellidos" class="form-control" style="max-width: 400px;" id="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono"><strong>Teléfono</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="telefono" name="telefono" class="form-control" style="max-width: 400px;" id="telefono" placeholder="Introducir mínimo 9 números" minlength="9" required>
+                </div>
+                <div class="form-group">
+                    <label for="domicilio"><strong>Domicilio</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="domicilio" name="domicilio" class="form-control" style="max-width: 400px;" id="domicilio" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaUltimoContacto">Fecha Último Contacto<span class="text-danger">*</span></label>
+                    <br>
+                    <p-calendar formControlName="fechaUltimoContacto" [maxDate]="hoy" [readonlyInput]="true" dateFormat="dd/mm/yy" [locale]="es" dataType="string" appendTo="body" id="fechaUltimoContacto"></p-calendar>
+                </div>
+                <div class="form-group">
+                    <label for="tipo"><strong>Descripción</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="tipo" name="tipo" class="form-control" style="max-width: 400px;" id="tipo" required>
+                </div>
+                <div>
+                    <button (click)="editarContacto()" class="btn btn-success btn-success-next" [disabled]="!agregarContactoFormGroup.valid || loading">
+                        Editar Contacto
+                        <span class="fa fa-check"></span>
+                    </button>&nbsp;
+
+                    <button class="btn btn-secondary btn-success-next" (click)="closeEditarContacto()">
+                        Cerrar
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+            </p-dialog>
+
+            <p-dialog [(visible)]="showAgregarContacto" [formGroup]="agregarContactoFormGroup" modal="true" header="Agregar Contacto">
+                <div class="form-group">
+                    <label for="nroDocumento"><strong>Número de Documento</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="nroDocumento" name="nroDocumento" class="form-control" style="max-width: 300px;" id="nroDocumento" required>
+                </div>
+                <div class="form-group">
+                        <label for="nombres"><strong>Nombres</strong><span class="text-danger">*</span></label>
+                        <input type="text" formControlName="nombres" name="nombres" class="form-control" style="max-width: 300px;" id="nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos"><strong>Apellidos</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="apellidos" name="apellidos" class="form-control" style="max-width: 300px;" id="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono"><strong>Teléfono</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="telefono" name="telefono" class="form-control" style="max-width: 300px;" id="telefono" placeholder="Introducir mínimo 9 números" minlength="9" required>
+                </div>
+                <div class="form-group">
+                    <label for="domicilio"><strong>Domicilio</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="domicilio" name="domicilio" class="form-control" style="max-width: 300px;" id="domicilio" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaUltimoContacto">Fecha Último Contacto<span class="text-danger">*</span></label>
+                    <br>
+                    <p-calendar formControlName="fechaUltimoContacto" [maxDate]="hoy" [readonlyInput]="true" dateFormat="dd/mm/yy" [locale]="es" dataType="string" appendTo="body" id="fechaUltimoContacto"></p-calendar>
+                </div>
+                <div class="form-group">
+                    <label for="tipo"><strong>Descripción</strong><span class="text-danger">*</span></label>
+                    <input type="text" formControlName="tipo" name="tipo" class="form-control" style="max-width: 300px;" id="tipo" required>
+                </div>
+
+                <div>
+                    <button (click)="agregarContacto()" class="btn btn-success btn-success-next" [disabled]="!agregarContactoFormGroup.valid || loading">
+                        Agregar Contacto
+                        <span class="fa fa-check"></span>
+                    </button>&nbsp;
+
+                    <button class="btn btn-secondary btn-success-next" (click)="closeAgregarContacto()">
+                        Cerrar
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+            </p-dialog>
+
+            <p-dialog [(visible)]="showBorrarContacto" modal="true" header="Está seguro de querer borrar el contacto?">
+                <div>
+                    <button (click)="borrarContacto()" class="btn btn-success btn-success-next">
+                        Borrar
+                        <span class="fa fa-check"></span>
+                    </button>&nbsp;
+
+                    <button class="btn btn-secondary btn-success-next" (click)="closePopupBorrarContacto()">
+                        Cancelar
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+</div>
+</div>

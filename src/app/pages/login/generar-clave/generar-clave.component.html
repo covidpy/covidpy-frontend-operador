@@ -1,0 +1,32 @@
+<div id="login-wrapper">
+  <!-- <img src="assets/layout/images/login/icon-login.svg" /> -->
+
+  <!-- <p-messages [value]="msgs"></p-messages> -->
+  <div id="login-container">
+    <!-- <span class="title">Bienvenido </span> -->
+    <h2 class="welcome-text">Cambiar clave</h2>
+    <span class="guest-sign-in">Ingrese su correo electrónico para cambiar su clave.</span>
+
+    <form>
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12" [formGroup]="formGroup">
+          <input type="text" pInputText required email="true" required formControlName="username"
+            placeholder="Correo electrónico">
+          <div [hidden]="formGroup.controls.username.status == 'VALID' || formGroup.controls.username.pristine">
+            <p-message severity="error" text="Debe ingresar un correo electrónico válido"></p-message>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+            [disabled]="formGroup.status != 'VALID'" (click)="enviarCorreo()">
+            <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
+            <span class="ui-button-text ui-c">Enviar</span>
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

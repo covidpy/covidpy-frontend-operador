@@ -1,0 +1,96 @@
+<div class="ui-fluid">
+  <p-growl [value]="msgs" sticky="sticky"></p-growl>
+  <div class="ui-g">
+    <p-blockUI [target]="table" [blocked]="block">
+      <p-progressSpinner class="spinner-position"></p-progressSpinner>
+    </p-blockUI>
+
+    <div class="ui-g-12">
+      <div class="card card-w-title ui-shadow-2">
+        <h1>Roles</h1>
+        <p-table #table [columns]="cols" [value]="roles" selectionMode="single" dataKey="id" [paginator]="true"
+          [rows]="pageSize" [totalRecords]="totalRecords" [responsive]="true" [lazy]="true" (onLazyLoad)="load($event)"
+          paginatorPosition="bottom" editMode="row" [resizableColumns]="true" columnResizeMode="expand">
+
+          <ng-template pTemplate="caption">
+            <button type="button" pButton icon="fa fa-plus" style="float:left;width: 100px;"
+              *ngIf="checkPermission('roles:crear')" (click)="createRol()" label="Agregar"></button>
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="30%" placeholder="Filtrar"
+                (input)="table.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn [style.width]="col.width">
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData">
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <div [formGroup]="formGroup">
+                      <input pInputText type="text" required formControlName="nombre">
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.nombre}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <div [formGroup]="formGroup">
+                      <input pInputText type="text" required formControlName="descripcion">
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <div [formGroup]="formGroup">
+                      <p-checkbox binary="true" formControlName="activo">
+                      </p-checkbox>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <p-checkbox [(ngModel)]="rowData.activo" binary="true" required disabled></p-checkbox>
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+
+              <td style="text-align:center">
+
+                <button *ngIf="!editing && checkPermission('roles:editar')" pButton type="button" pInitEditableRow
+                  icon="pi pi-pencil" class="ui-button-text" pTooltip="Editar" tooltipPosition="bottom"
+                  (click)="onRowEditInit(rowData)"></button>
+
+                <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
+                  class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"
+                  pTooltip="Guardar" tooltipPosition="bottom" [disabled]="formGroup.status != 'VALID'"></button>
+
+                <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
+                  class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)" pTooltip="Cancelar"
+                  tooltipPosition="bottom"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <app-rol-crear [(visible)]="showRolCreateDialog" (onResponse)="onRolCreateResponse($event)"
+          (bindVisible)="changeDialogRolCreateVisibility($event)"></app-rol-crear>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+  <div class="ui-fluid">
+    <p-growl [value]="msgs" sticky="sticky"></p-growl>
+    <div class="ui-g">
+      <p-blockUI [target]="table" [blocked]="block">
+        <p-progressSpinner class="spinner-position"></p-progressSpinner>
+      </p-blockUI>
+
+      <div class="ui-g-12">
+        <div class="card ui-shadow-2">
+          <h3 class="title-divider text-primary">
+            <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+            <span>Histórico de Salud - Documento Nro: {{cedula$|async}}</span>
+          </h3>
+          <p-table #table
+                   [columns]="cols"
+                   [value]="historico$|async"
+                   selectionMode="single" dataKey="id" [paginator]="true"
+                   [rows]="pageSize"
+                   [totalRecords]="totalRecords$|async"
+                   [responsive]="true"
+                   [lazy]="true"
+                   paginatorPosition="bottom" [resizableColumns]="true" columnResizeMode="expand" [loading]="loading" loadingIcon="fa fa-spinner">
+            <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-file" style="float:left;width: 120px;"
+                        (click)="onCsvDownload$.next()"
+                        class="btn btn-success btn-success-next"
+                        label="Exportar"></button>
+<!--                <div class="ui-inputgroup" style="display: flex; justify-content: flex-end">-->
+<!--                  <span class="ui-inputgroup-addon">-->
+<!--                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>-->
+<!--                  </span>-->
+<!--                  <input type="text" pInputText size="30%" placeholder="Filtrar"-->
+<!--                         (input)="table.filterGlobal($event.target.value, 'contains')" style="width:auto">-->
+<!--                </div>-->
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns"
+                    [pSortableColumn]="col.sort ? col.field : ''" pResizableColumn [style.width]="col.width">
+                  {{col.header}}
+                  <p-sortIcon *ngIf="col.sort" [field]="col.field"></p-sortIcon>
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-reporte let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" [class]="col.isAction ? 'text-center' : ''">
+                <span *ngIf="!col.isDate && !col.isAction; else dateFormatField">
+                   {{reporte[col.field]}}
+                </span>
+                  <ng-template #dateFormatField>
+                    <ng-container *ngIf="!col.isAction">
+                      {{reporte[col.field]  | date:'dd/MM/yyyy HH:mm'}}
+                    </ng-container>
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns.length">
+                <span *ngIf="!loading && !error">
+                  Sin registros
+                </span>
+                  <span *ngIf="loading">
+                  Cargando
+                </span>
+                  <span *ngIf="!loading && error">
+                  Ocurrió un error al cargar los datos
+                </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <button type="button" pButton icon="fa fa-arrow-left"
+                  style="width: 100px; margin-top: 16px"
+                  class="btn btn-success btn-success-next"
+                  label="Volver" (click)="goBack()"></button>
+        </div>
+      </div>
+    </div>
+  </div>

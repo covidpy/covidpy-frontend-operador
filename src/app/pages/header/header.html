@@ -1,0 +1,45 @@
+<div id="inicio" #topSite></div>
+
+<div id="header">
+    <div>
+        <div class="header header-transparent header-dark">
+            <div class="header-inner container">
+
+                <!--div class="header-brand">
+                    <a class="header-brand-text p-1 mr-2" title="Portal Paraguay" routerLink="/"-->
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <img src="assets/img/logos/M_Salud-Publica-y-bien-estar-social.png" class="logo-principal logo-portal-paraguay">
+                                </td>
+                                <td style="text-align: right;">
+                                    <img src="assets/img/logos/GN-B-claro.png" class="logo-principal logo-portal-paraguay" style="vertical-align: middle;">
+                                    &nbsp;
+                                    <i *ngIf="!isLogin()&&currentUser" (click)="logout()" pToolTip="Salir" class="pi pi-sign-out" style="font-size: 2em;vertical-align: middle;"></i>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                        
+                    <!--/a>
+                </div-->
+                <!--div class="col-lg-4 text-right pt-2">
+                    
+                    <a href="https://www.mitic.gov.py/" target="_blank">
+                        <img src="https://cdn.paraguay.gov.py/marca-SENATICs/marca-senatics-desarrollado-por.png" alt="Marca producto/servicio MITIC" class="img-fluid" width="248" />
+                        
+                    </a>
+                    <div class="subfooter text-sm mt-2">
+                        <a routerLink="/identidad-electronica/terminos" class="text-white">Políticas de privacidad</a> ->
+                        <<a routerLink="/mapa-del-sitio" class="text-white">Mapa del Sitio</a>>
+                    </div>
+                </div-->
+                <!--div class="header-brand">
+                    <a class="header-brand-text p-1 mr-2" title="Portal Paraguay" routerLink="/">
+                        <img src="assets/img/logos/GN-B-claro.png" class="logo-principal logo-portal-paraguay">
+                    </a>
+                </div-->
+
+            </div>
+        </div>

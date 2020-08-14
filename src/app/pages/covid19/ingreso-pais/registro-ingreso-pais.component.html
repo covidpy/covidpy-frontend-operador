@@ -1,0 +1,141 @@
+<div id="page-header" class="bg-gradient bg-shadow" style="padding: 0px 0;">
+    <div class="container clearfix">
+        <nav class="breadcrumb">
+
+        </nav>
+    </div>
+</div>
+<div id="content" class="pb-0">
+<div id="content" class="pb-0 pt-2">
+    <div class="container pb-6">
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <h3 class="title-divider text-primary">
+                    <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+                    <!--<span>Registro de Salud - Datos Básicos</span>-->
+                    <span>Declaración de Salud al Ingresar al País</span>
+                </h3>
+
+                <form #miForm="ngForm" class="mt-4">
+                    <!--<div class="form-group">
+                        <label for="tipoRegistro"><strong>Motivo de aislamiento</strong></label>
+                        <br>
+                        <p-dropdown id="tipoRegistro" [options]="tipoRegistroOptions" label="label" placeholder="Seleccionar" [(ngModel)]="formDatosBasicos.tipoRegistro" name="tipoRegistro" id="tipoRegistro" [style]="{'width':'300px'}" required></p-dropdown>
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="tipoDocumento"><strong>Tipo de Documento</strong></label>
+                        <br>
+                        <p-dropdown id="tipoDocumento" [options]="tipoDocumentoOptions" label="label" placeholder="Seleccionar" [(ngModel)]="formDatosBasicos.tipoDocumento" name="tipoDocumento" id="tipoDocumento" [style]="{'width':'300px'}" required></p-dropdown>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroDocumento" *ngIf="formDatosBasicos.tipoDocumento===0"><strong>Número de Cédula </strong> <small>sin puntos</small></label>
+                        <label for="numeroDocumento" *ngIf="formDatosBasicos.tipoDocumento===1"><strong>Número de Pasaporte </strong> <small>sin puntos</small></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroDocumento" class="form-control" style="max-width: 300px;" id="numeroDocumento" name="numeroDocumento" placeholder="Ej. 123456" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre"><strong>Nombres</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.nombre" name="nombre" class="form-control" style="max-width: 300px;" id="nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido"><strong>Apellidos</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.apellido" name="apellido" class="form-control" style="max-width: 300px;" id="apellido" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numeroCelular"><strong>Número de teléfono</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.numeroCelular" class="form-control" id="numeroCelular" style="max-width: 300px;" name="numeroCelular" placeholder="Ej. 0961123456" minlength="6" required>
+                        <!-- (keypress)="keyPress($event)" -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccionDomicilio"><strong>Dirección en que guardará aislamiento</strong></label>
+                        <input type="text" [(ngModel)]="formDatosBasicos.direccionDomicilio" name="direccionDomicilio" class="form-control" style="max-width: 300px;" id="direccionDomicilio" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departamento"><strong>Departamento</strong></label>
+                        <br>
+                        <p-dropdown id="departamento" [options]="departamentoOptions" label="label" placeholder="Seleccionar" [(ngModel)]="formDatosBasicos.departamentoDomicilio" name="departamento" id="departamento" [style]="{'width':'300px'}" required></p-dropdown>
+                        <!--(onChange)="onChange($event)"-->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ciudad"><strong>Ciudad</strong></label>
+                        <br>
+                        <input type="text" [(ngModel)]="formDatosBasicos.ciudadDomicilio" name="ciudadDomicilio" class="form-control" style="max-width: 300px;" id="ciudadDomicilio" required>
+                        <!--<p-dropdown id="ciudad" [options]="ciudadOptions" label="label" placeholder="Seleccionar" [(ngModel)]="formDatosBasicos.ciudadDomicilio" name="ciudad" id="ciudad" [style]="{'width':'300px'}" required></p-dropdown>-->
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label for="correoElectronico"><strong>Correo Electrónico</strong></label>
+                        <input type="email" [(ngModel)]="formDatosBasicos.correoElectronico" name="correoElectronico" class="form-control" style="max-width: 300px;" id="correoElectronico" email required>
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="contrasenha"><strong>Clave de seguridad </strong></label>
+                        <input type="password" [(ngModel)]="formDatosBasicos.contrasenha" class="form-control" id="contrasenha" style="max-width: 300px;" name="contrasenha" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contrasenhaConfirm"><strong>Confirmar Clave de seguridad</strong></label>
+                        <input type="password" [(ngModel)]="contrasenhaConfirm" name="contrasenhaConfirm" class="form-control" style="max-width: 300px;" id="contrasenhaConfirm" required>
+                    </div>
+
+                    <div class="text-center" *ngIf="loading">
+                        <img src="assets/img/misc/icon_loading.gif" alt="Procesando.." /> Registrando...
+                    </div>
+
+                    <div class="clearfix"><br/></div>
+
+                    <div class="clearfix">
+                    <table>
+                        <tr>
+                            <td>
+                                <button (click)="registrar(formDatosBasicos)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading || formDatosBasicos.contrasenha !== contrasenhaConfirm">
+                                    <!--  || !telefValido || telefono.indexOf('+')!=0 -->
+                                        Registrar
+                                        <span class="fa fa-check"></span>
+                                    </button>
+                            </td>
+                            <!--<td>
+                                <button class="btn btn-success btn-success-next" routerLink="/covid19/home-operador">
+                                        Cancelar
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                            </td>-->
+                        </tr>
+                    </table>
+
+                    </div>
+                </form>
+
+                <div class="clearfix"><br/></div>
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> Debe completar todos los campos en el formato correcto para iniciar.
+                    <br><i class="fa fa-info-circle"></i> La Clave de seguridad debe tener un mínimo de 8 caracteres.
+                </div>
+            </div>
+
+            <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">{{mensaje}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i>  Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>

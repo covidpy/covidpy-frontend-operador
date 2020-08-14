@@ -1,0 +1,37 @@
+<p-dialog header="Crear rol" [(visible)]="visible" [draggable]="true" [responsive]="true" [maximizable]="true"
+  (onHide)="close()" [autoZIndex]="true" [style]="{'max-width': '500px'}">
+
+  <span style="color:red; float: right; margin-top: -31px;">(*) Son campos obligatorios</span>
+  <form>
+      <span style="color:red; float: right;">(*) Son campos obligatorios</span><br>
+    <div class="ui-g form-group" [formGroup]="formGroup">
+
+      <!-- Nombre -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="nombre">Nombre <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="nombre" pInputText placeholder="Nombre" formControlName="nombre" />
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-3">
+          <label for="descripcion">Descripción <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <textarea type="text" id="descripcion" pInputText placeholder="Descripción" formControlName="descripcion" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+
+  <p-footer>
+    <button type="button" pButton (click)="crearRol()" [disabled]="!formGroup.valid" label="Guardar"></button>
+    <button type="button" pButton (click)="close()" label="Cancelar" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>

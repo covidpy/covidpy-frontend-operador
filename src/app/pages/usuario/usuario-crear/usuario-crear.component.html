@@ -1,0 +1,107 @@
+<p-dialog header="Crear usuario" [(visible)]="visible" [draggable]="true" [responsive]="true" [maximizable]="true"
+  (onHide)="close()" [autoZIndex]="true" [style]="{'max-width': '700px'}">
+
+
+  <form>
+      <span style="color:red; float: right;">(*) Son campos obligatorios</span>
+    <div class="ui-g form-group" [formGroup]="formGroup">
+      <!-- Nombre -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="nombre">Nombre <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="nombre" pInputText placeholder="Nombre" formControlName="nombre" />
+        </div>
+      </div>
+
+      <!-- Apellido -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="apellido">Apellido <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="apellido" pInputText placeholder="Apellido" formControlName="apellido" />
+        </div>
+      </div>
+
+      <!-- Nombre usuario -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="username">Nombre usuario (Email) <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="username" pInputText placeholder="Nombre usuario (Email)" formControlName="username" />
+          <div [hidden]="!formGroup.controls.username.hasError('email')">
+            <p-message severity="error" text="Debe ingresar un correo electrónico válido"></p-message>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cedula -->
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cedula">Cédula <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="cedula" pInputText placeholder="Cédula" formControlName="cedula" />
+        </div>
+      </div>
+
+      <!-- Roles -->
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="rol">Roles <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <p-multiSelect [options]="roles" id="rol" defaultLabel="Seleccione los roles" formControlName="rols">
+          </p-multiSelect>
+        </div>
+      </div>
+
+      <!-- Cargo -->
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cargo">Cargo <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="cargo" pInputText placeholder="Cargo" formControlName="cargo" />
+        </div>
+      </div>
+
+      <!-- Telefono -->
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="telefono">Teléfono <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input type="text" id="telefono" pInputText placeholder="Teléfono" formControlName="telefono" />
+        </div>
+      </div>
+
+      <!-- Oee -->
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="oee">OEE <span style="color:red">*</span></label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <input pInputText type="text" id="oee" formControlName="oee" style="width: 93%">
+          <button pButton icon="pi pi-search" (click)="searchOee()" tooltipPosition="bottom" style="width: 7%"></button>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+
+
+  <p-footer>
+    <button type="button" pButton (click)="crearUsuario()" [disabled]="!formGroup.valid || !formGroup.controls.oee.value"
+      label="Guardar"></button>
+    <button type="button" pButton (click)="close()" label="Cancelar" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>

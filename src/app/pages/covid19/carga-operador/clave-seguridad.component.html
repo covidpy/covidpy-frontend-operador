@@ -1,0 +1,46 @@
+<div id="page-header" class="bg-gradient bg-shadow" style="padding: 0px 0;">
+    <div class="container clearfix">
+        <nav class="breadcrumb">
+            
+        </nav>
+    </div>
+</div>
+<div id="content" class="pb-0">
+<div id="content" class="pb-0 pt-2">
+    <div class="container pb-6">
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <h3 class="title-divider text-primary">
+                    <i class="fa fa-edit mr-2" style="margin-top: -4px;"></i>
+                    <span>Formulario de Registro de Salud</span>
+                </h3>
+                <br>
+                <p style="text-align:justify">
+                    <b>{{nombre}}&nbsp;{{apellido}}</b>, favor ingrese una nueva clave de seguridad:
+                </p>
+                <form #miForm="ngForm" class="mt-4">
+                    <div class="form-group">
+                        <label for="contrasenha"><strong>Clave de seguridad </strong></label>
+                        <input type="password" [(ngModel)]="contrasenha" class="form-control" id="contrasenha" style="max-width: 300px;" name="contrasenha" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contrasenhaConfirm"><strong>Confirmar Clave de seguridad</strong></label>
+                        <input type="password" [(ngModel)]="contrasenhaConfirm" name="contrasenhaConfirm" class="form-control" style="max-width: 300px;" id="contrasenhaConfirm" required>
+                    </div>
+
+                    <button (click)="setearClave(contrasenha)" type="submit" class="btn btn-success btn-success-next" [disabled]="!miForm.form.valid || loading || contrasenha!==contrasenhaConfirm">
+                            Enviar
+                            <span class="fa fa-check"></span>            
+                    </button>
+                </form>
+                <div class="clearfix"><br/></div>
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>La contraseña debe tener un mínimo de 8 caracteres.
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+</div>
